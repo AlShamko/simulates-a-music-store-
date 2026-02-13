@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Toolbar from './components/Toolbar';
 import SongTable from './components/SongTable';
 import SongGallery from './components/SongGallery';
+import {API_BASE_URL} from './config/config.ts';
 
 const App = () => {
     const [locale, setLocale] = useState('en');
@@ -19,14 +20,18 @@ const App = () => {
     const fetchSongs = useCallback(async (pageNum: number, isNew: boolean) => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:3000/api/songs`, {
+
+            const response = await axios.get(`${API_BASE_URL}/songs`, {
                 params: {seed, page: pageNum, locale, likes}
             });
 
             const newSongs = response.data;
 
-            if (newSongs.length < 20) setHasMore(false);
-            else setHasMore(true);
+            if (newSongs.length < 20) {
+                setHasMore(false);
+            } else {
+                setHasMore(true);
+            }
 
             if (isNew) {
                 setSongs(newSongs);
@@ -88,7 +93,7 @@ const App = () => {
                         nextPage={() => {
                             const next = page + 1;
                             setPage(next);
-                            fetchSongs(next, false);
+                            fetchSongs(next, false); // false = добавляем в конец списка
                         }}
                     />
                 )}
@@ -99,7 +104,7 @@ const App = () => {
 
 const AppContainer = styled.div`
     min-height: 100vh;
-    background-color: #f3f4f6; /* gray-100 */
+    background-color: #f3f4f6;
     padding: 1.5rem;
     font-family: 'Inter', sans-serif;
 `;
@@ -146,6 +151,5 @@ const PageIndicator = styled.span`
     font-weight: 700;
     color: #374151;
 `;
-
 
 export default App;

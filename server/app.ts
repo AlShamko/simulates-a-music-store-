@@ -14,3 +14,8 @@ app.get('/api/songs', getSongs);
 app.listen(config.port, () => {
     console.log(`Server is running on http://localhost:${config.port}`);
 });
+
+app.use(cors({
+    origin: process.env.FRONTEND_URL || '*',
+    methods: ['GET', 'POST'],
+}));
