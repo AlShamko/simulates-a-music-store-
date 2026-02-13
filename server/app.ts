@@ -6,16 +6,19 @@ import { getCover } from './controllers/cover.js';
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
+
 app.get('/api/cover', getCover);
 app.get('/api/songs', getSongs);
 
-app.listen(config.port, () => {
-    console.log(`Server is running on http://localhost:${config.port}`);
-});
+const PORT = process.env.PORT || config.port || 3000;
 
-app.use(cors({
-    origin: process.env.FRONTEND_URL || '*',
-    methods: ['GET', 'POST'],
-}));
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
+});
