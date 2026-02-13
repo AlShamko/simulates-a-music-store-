@@ -17,7 +17,7 @@ app.use(express.json());
 app.get('/api/cover', getCover);
 app.get('/api/songs', getSongs);
 
-const PORT = process.env.PORT || config.port || 3000;
+const PORT = Number(process.env.PORT) || Number(config.port) || 3000;
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
