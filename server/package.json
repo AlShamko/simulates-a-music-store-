@@ -5,8 +5,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/app.js",
-    "dev": "nodemon --exec node --import tsx app.ts",
-    "postinstall": "npm run build"
+    "dev": "nodemon --exec node --import tsx app.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^10.3.0",
