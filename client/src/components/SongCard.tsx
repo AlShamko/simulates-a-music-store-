@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Tone from 'tone';
 import { Play } from 'lucide-react';
+import { API_BASE_URL } from '../config/config';
 
 interface SongProps {
     song: {
@@ -23,6 +24,12 @@ interface SongProps {
 }
 
 const SongCard: React.FC<SongProps> = ({ song }) => {
+    const correctedCoverUrl = song.coverUrl.includes('localhost:3000')
+        ? song.coverUrl.replace('http://localhost:3000/api', API_BASE_URL)
+        : song.coverUrl.startsWith('http')
+            ? song.coverUrl
+            : `${API_BASE_URL}${song.coverUrl}`;
+
     const playMusic = async () => {
         try {
             await Tone.start();
@@ -40,6 +47,7 @@ const SongCard: React.FC<SongProps> = ({ song }) => {
             notes.forEach((item) => {
                 synth.triggerAttackRelease(item.note, item.duration, now + item.time);
             });
+
             setTimeout(() => {
                 synth.dispose();
                 feedbackDelay.dispose();
@@ -52,7 +60,7 @@ const SongCard: React.FC<SongProps> = ({ song }) => {
 
     return (
         <Card>
-            <CoverImage src={song.coverUrl} alt={song.title} loading="lazy" />
+            <CoverImage src={correctedCoverUrl} alt={song.title} loading="lazy" />
             <Content>
                 <Header>
                     <Title title={song.title}>{song.title}</Title>
@@ -69,6 +77,7 @@ const SongCard: React.FC<SongProps> = ({ song }) => {
         </Card>
     );
 };
+
 const Card = styled.div`
     background: white;
     border-radius: 0.75rem;
@@ -84,6 +93,7 @@ const Card = styled.div`
 
 const CoverImage = styled.img`
     width: 100%;
+    aspect-ratio: 1 / 1; /* Сохраняем квадратность для обложек */
     object-fit: cover;
 `;
 
