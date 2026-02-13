@@ -1,7 +1,5 @@
 import dotenv from 'dotenv';
 
-dotenv.config();
-
 interface Config {
     port: number;
     nodeEnv: string;
@@ -12,4 +10,5 @@ const config: Config = {
     nodeEnv: process.env.NODE_ENV || 'development',
 };
 
+dotenv.config();
 export default config;
