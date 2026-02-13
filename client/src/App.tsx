@@ -11,7 +11,6 @@ const App = () => {
     const [seed, setSeed] = useState('42');
     const [likes, setLikes] = useState(5.0);
     const [viewMode, setViewMode] = useState<'table' | 'gallery'>('table');
-
     const [songs, setSongs] = useState<any[]>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
